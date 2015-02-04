@@ -1,6 +1,6 @@
-# not-asteroid
+# not-asteroids
 
-Not Asteroid, but a simple clone
+Not Asteroids, but a simple clone
 
 ## History
 
