@@ -1,0 +1,16 @@
+build
+release
+debug
+*~
+*.o
+*.obj
+.*.swp
+*.exe
+*.dll
+bin
+res
+*.manifest
+std*.txt
+*.pdb
+CMakeCache.txt
+CMakeFiles/
