@@ -12,5 +12,3 @@ res
 *.manifest
 std*.txt
 *.pdb
-CMakeCache.txt
-CMakeFiles/
