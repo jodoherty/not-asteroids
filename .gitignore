@@ -12,3 +12,4 @@ res
 *.manifest
 std*.txt
 *.pdb
+.DS_Store
