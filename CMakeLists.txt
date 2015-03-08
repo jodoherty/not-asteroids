@@ -8,7 +8,7 @@ set(SOURCES
 	src/Asteroid.cpp
 	src/Bullet.cpp
 	src/Ship.cpp
-        src/BitmapFont.c
+	src/BitmapFont.c
 )
 
 set(HEADERS
@@ -24,7 +24,7 @@ set(HEADERS
 	src/Asteroid.h
 	src/Bullet.h
 	src/Ship.h
-        src/BitmapFont.h
+	src/BitmapFont.h
 )
 
 if (MSVC)
