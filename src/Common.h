@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <cmath>
 
-#include <glew.h>
+#include <GL/glew.h>
 
 #include "Geometry.h"
 #include "Resources.h"

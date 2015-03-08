@@ -1,4 +1,4 @@
-#include <glew.h>
+#include <GL/glew.h>
 
 #include "BitmapFont.h"
 #include "BitmapFont.inc"
