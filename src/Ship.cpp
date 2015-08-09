@@ -2,7 +2,7 @@
 // Copyright (c) 2011 James O'Doherty
 // All Rights Reserved
 
-#include <boost/pointer_cast.hpp>
+#include <memory>
 
 #include "Common.h"
 #include "Ship.h"

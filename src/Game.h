@@ -11,12 +11,12 @@
 #include "Sprite.h"
 #include "Ship.h"
 #include <vector>
-#include <boost/smart_ptr.hpp>
+#include <memory>
 
 class Game
 {
-    std::vector< boost::shared_ptr<Sprite> > sprites;
-    boost::shared_ptr<Ship> player;
+    std::vector< std::shared_ptr<Sprite> > sprites;
+    std::shared_ptr<Ship> player;
     int score;
     int lives;
     int level;

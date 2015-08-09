@@ -9,9 +9,8 @@
 #include <vector>
 #include <algorithm>
 
-#include <boost/shared_ptr.hpp>
-#include <boost/pointer_cast.hpp>
-#include <boost/bind.hpp>
+#include <functional>
+#include <memory>
 
 #include "Common.h"
 
@@ -26,6 +25,7 @@ static SDL_Surface *screen = NULL;
 #include "BitmapFont.h"
 
 using namespace std;
+using namespace std::placeholders;
 
 Game::Game() 
 {
@@ -67,7 +67,7 @@ Game::Game()
     audio = GetAudioServiceInstance();
 
     // Initialize sprites and scene data list
-    boost::shared_ptr<Ship> splayer(new Ship());
+    shared_ptr<Ship> splayer(new Ship());
     player = splayer;
     startGame();
 
@@ -152,11 +152,11 @@ void Game::update()
 {
     static int bonus = 1;
 
-    vector< boost::shared_ptr<Sprite> >::iterator it;
-    vector< boost::shared_ptr<Sprite> >::iterator it2;
+    vector< shared_ptr<Sprite> >::iterator it;
+    vector< shared_ptr<Sprite> >::iterator it2;
 
-    vector< boost::shared_ptr<Sprite> >::iterator list_it;
-    vector< boost::shared_ptr<Sprite> > add_list;
+    vector< shared_ptr<Sprite> >::iterator list_it;
+    vector< shared_ptr<Sprite> > add_list;
 
     if (score > bonus*4000) {
         lives++;
@@ -164,7 +164,7 @@ void Game::update()
     }
     if (player->isAlive() && sprites.size() < 2) {
         while (add_list.size() < 5) {
-            boost::shared_ptr<Sprite> a(new Asteroid(rand()%8+8.0f+level));
+            shared_ptr<Sprite> a(new Asteroid(rand()%8+8.0f+level));
             add_list.push_back(a);
         }
         level++;
@@ -172,13 +172,13 @@ void Game::update()
 
     // remove any objects that have moved out of bounds
     sprites.erase(remove_if(sprites.begin(), sprites.end(),
-                    boost::bind(&Sprite::isOutOfBounds, _1)), sprites.end());
+                    bind(&Sprite::isOutOfBounds, _1)), sprites.end());
     // Call update handlers
     for_each(sprites.begin(), sprites.end(), 
-            boost::bind(&Sprite::preUpdateHandler,_1));
-    for_each(sprites.begin(), sprites.end(), boost::bind(&Sprite::update,_1));
+            bind(&Sprite::preUpdateHandler,_1));
+    for_each(sprites.begin(), sprites.end(), bind(&Sprite::update,_1));
     for_each(sprites.begin(), sprites.end(), 
-            boost::bind(&Sprite::postUpdateHandler,_1));
+            bind(&Sprite::postUpdateHandler,_1));
 
     // Run collision detection and game physics
     it = sprites.begin();
@@ -214,10 +214,10 @@ void Game::update()
                 } 
 
                 // Now check to see if we have a bullet hitting a bullet
-                boost::shared_ptr<Bullet> b1 =
-                    boost::dynamic_pointer_cast<Bullet>(*it);
-                boost::shared_ptr<Bullet> b2 =
-                    boost::dynamic_pointer_cast<Bullet>(*it2);
+                shared_ptr<Bullet> b1 =
+                    dynamic_pointer_cast<Bullet>(*it);
+                shared_ptr<Bullet> b2 =
+                    dynamic_pointer_cast<Bullet>(*it2);
 
                 if (b1 && b2) {
                     it = sprites.erase(it);
@@ -227,7 +227,7 @@ void Game::update()
 
                 // Now check to see if we have a bullet hitting an asteroid
                 Asteroid *a = NULL;
-                boost::shared_ptr<Bullet> b;
+                shared_ptr<Bullet> b;
                 if (a1)
                     a = a1;
                 else if (a2)
@@ -243,7 +243,7 @@ void Game::update()
                     if (a->createChildren(children)) {
                         // Children created successfully
                         for (int i=0; i<4; i++) {
-                            boost::shared_ptr<Sprite> child(children[i]);
+                            shared_ptr<Sprite> child(children[i]);
                             add_list.push_back(child);
                         }
                         audio->playSample(r_explosion_sample);
@@ -251,7 +251,7 @@ void Game::update()
                         audio->playSample(r_smallexplosion_sample);
                     }
                     Point position = a->getLocation();
-                    add_list.push_back(boost::shared_ptr<Sprite>(new
+                    add_list.push_back(shared_ptr<Sprite>(new
                                         Explosion(position.x, position.y)));
                     score += static_cast<int>(a->getSize());
 
@@ -271,8 +271,8 @@ void Game::update()
             it2++;
         } 
         {
-            boost::shared_ptr<Explosion> e =
-                                boost::dynamic_pointer_cast<Explosion>(*it);
+            shared_ptr<Explosion> e =
+                                dynamic_pointer_cast<Explosion>(*it);
             if (e && e->isFinished()) {
                 it = sprites.erase(it);
                 goto next_iteration;
@@ -320,7 +320,7 @@ void Game::draw()
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glScissor(left, bottom, width, height);
-    for_each(sprites.begin(), sprites.end(), boost::bind(&Sprite::draw,_1));
+    for_each(sprites.begin(), sprites.end(), bind(&Sprite::draw,_1));
     glDisable(GL_BLEND);
     glDisable(GL_SCISSOR_TEST);
 
@@ -399,7 +399,7 @@ bool Game::poll()
                         break;
                     case SDLK_SPACE:
                         if (player->isAlive()) {
-                            sprites.push_back(boost::shared_ptr<Sprite>(player->fire()));
+                            sprites.push_back(shared_ptr<Sprite>(player->fire()));
                             audio->playSample(r_fire_sample);
                         } else if (lives > 0 && player->isReady()) {
                             lives--;
