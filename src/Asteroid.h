@@ -7,59 +7,54 @@
 #include "MirroredSprite.h"
 #include "Vector2d.h"
 
-class Asteroid : public MirroredSprite
-{
-    float x;
-    float y;
-    Vector2d velocity;
-    float size;
-    float angle;
-    float angular_velocity;
-    bool disabled;
+class Asteroid : public MirroredSprite {
+  float x;
+  float y;
+  Vector2d velocity;
+  float size;
+  float angle;
+  float angular_velocity;
+  bool disabled;
 
-    void init();
+  void init();
 
-public:
-    Asteroid(float size);
-    Asteroid(float x, float y, float size);
-    Asteroid(float x, float y, float size, Point center);
-    ~Asteroid();
+ public:
+  Asteroid(float size);
+  Asteroid(float x, float y, float size);
+  Asteroid(float x, float y, float size, Point center);
+  ~Asteroid();
 
-    // Child factory function
-    bool createChildren(Asteroid **);
+  // Child factory function
+  bool createChildren(Asteroid **);
 
-    // Required accessors
-    float getSize() {
-        return size;
-    }
-    Point getLocation() {
-        Point p = {x, y};
-        return p;
-    }
-    void setLocation(Point p) {
-        x = p.x;
-        y = p.y;
-    }
+  // Required accessors
+  float getSize() { return size; }
+  Point getLocation() {
+    Point p = {x, y};
 
-    // Asteroid specific accessors
-    void disable() {
-        disabled = true;
-    }
+    return p;
+  }
+  void setLocation(Point p) {
+    x = p.x;
+    y = p.y;
+  }
 
-    void reverse() {
-        x -= 0.1f*velocity.x;
-        y -= 0.1f*velocity.y;
-    }
+  // Asteroid specific accessors
+  void disable() { disabled = true; }
 
-    // collide handles collisions with other Asteroids
-    void collide(Asteroid &);
+  void reverse() {
+    x -= 0.1f * velocity.x;
+    y -= 0.1f * velocity.y;
+  }
 
-    void update();
-    void drawAt(float x, float y);
+  // collide handles collisions with other Asteroids
+  void collide(Asteroid &);
 
-    static const float kMaxSize;
-    static const float kMinSize;
+  void update();
+  void drawAt(float x, float y);
 
+  static const float kMaxSize;
+  static const float kMinSize;
 };
 
-#endif // ASTEROID_H__
+#endif  // ASTEROID_H__

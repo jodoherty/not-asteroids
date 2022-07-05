@@ -7,43 +7,41 @@
 
 #include <SDL.h>
 
-#include "AudioService.h"
-#include "Sprite.h"
-#include "Ship.h"
-#include <vector>
 #include <memory>
+#include <vector>
 
-class Game
-{
-    std::vector< std::shared_ptr<Sprite> > sprites;
-    std::shared_ptr<Ship> player;
-    int score;
-    int lives;
-    int level;
-    int left, bottom, width, height;
-    AudioService *audio;
+#include "AudioService.h"
+#include "Ship.h"
+#include "Sprite.h"
 
-public:
-    Game();
-    ~Game();
+class Game {
+  std::vector<std::shared_ptr<Sprite>> sprites;
+  std::shared_ptr<Ship> player;
+  int score;
+  int lives;
+  int level;
+  int left, bottom, width, height;
+  AudioService *audio;
 
-    void run();
+ public:
+  Game();
+  ~Game();
 
-    bool poll();
-    void update();
-    void draw();
+  void run();
 
-private:
-    // Handle screen resize event
-    void reshape(int w, int h);
-    // Handle fullscreen toggle event
-    void toggleFullScreen();
+  bool poll();
+  void update();
+  void draw();
 
-    void startGame();
-    void drawGameOverOverlay();
-    void drawGameOverlay();
+ private:
+  // Handle screen resize event
+  void reshape(int w, int h);
+  // Handle fullscreen toggle event
+  void toggleFullScreen();
 
+  void startGame();
+  void drawGameOverOverlay();
+  void drawGameOverlay();
 };
 
-#endif // GAME_H__
-
+#endif  // GAME_H__

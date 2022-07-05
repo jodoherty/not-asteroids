@@ -12,4 +12,3 @@ void DrawText(float x, float y, const char *string);
 #endif
 
 #endif /* BITMAP_FONT_H__ */
-

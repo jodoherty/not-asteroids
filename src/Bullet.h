@@ -7,41 +7,36 @@
 
 #include "MirroredSprite.h"
 
-class Bullet : public Sprite
-{
-    float x;
-    float y;
-    float dx;
-    float dy;
-    static const float size;
+class Bullet : public Sprite {
+  float x;
+  float y;
+  float dx;
+  float dy;
+  static const float size;
 
-public:
-    Bullet(float x, float y, float dx, float dy) 
-          : x(x), y(y), dx(dx), dy(dy)
-    {}
+ public:
+  Bullet(float x, float y, float dx, float dy) : x(x), y(y), dx(dx), dy(dy) {}
 
-    ~Bullet() {
-        #ifdef DEBUG
-        std::cout << "Destroyed Bullet!\n";
-        #endif
-    }
-    
-    float getSize() {
-        return size;
-    }
-    Point getLocation() {
-        Point p = {x,y};
-        return p;
-    }
-    void setLocation(Point p) {
-        x = p.x;
-        y = p.y;
-    }
+  ~Bullet() {
+#ifdef DEBUG
+    std::cout << "Destroyed Bullet!\n";
+#endif
+  }
 
-    void update();
-    void drawAt(float x, float y);
+  float getSize() { return size; }
+  Point getLocation() {
+    Point p = {x, y};
+    return p;
+  }
+  void setLocation(Point p) {
+    x = p.x;
+    y = p.y;
+  }
 
-    friend class Ship;
+  void update();
+  void drawAt(float x, float y);
+
+  friend class Ship;
 };
 
-#endif // BULLET_H__
+#endif  // BULLET_H__
