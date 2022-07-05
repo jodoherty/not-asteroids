@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(asteroids)
 
+set(OpenGL_GL_PREFERENCE GLVND)
+
 set(SOURCES
 	src/main.cpp
 	src/Game.cpp
@@ -59,7 +61,7 @@ link_libraries(
 	${OPENGL_LIBRARY}
 	${SDL_LIBRARY}
 	${SDLMIXER_LIBRARY}
-	${GLEW_LIBRARY}
+        ${GLEW_LIBRARIES}
 )
 add_executable(asteroids WIN32 MACOSX_BUNDLE ${SOURCES})
 
