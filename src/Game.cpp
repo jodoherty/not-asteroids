@@ -15,7 +15,7 @@
 
 #include "Common.h"
 
-static SDL_Surface *screen = NULL;
+static SDL_Surface *screen = nullptr;
 
 #include "Asteroid.h"
 #include "BitmapFont.h"
@@ -70,7 +70,7 @@ Game::Game() {
 Game::~Game() { audio->release(); }
 
 void Game::run() {
-  srand(static_cast<unsigned int>(time(NULL)));
+  srand(static_cast<unsigned int>(time(nullptr)));
 
   // Start playing background music
   audio->playTrack(r_bg_music_track);
@@ -210,7 +210,7 @@ void Game::update() {
         }
 
         // Now check to see if we have a bullet hitting an asteroid
-        Asteroid *a = NULL;
+        Asteroid *a = nullptr;
         shared_ptr<Bullet> b;
         if (a1)
           a = a1;

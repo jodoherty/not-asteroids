@@ -4,10 +4,7 @@
 
 using namespace std;
 
-typedef map<const char *, Mix_Music *>::iterator TrackIterator;
-typedef map<const char *, Mix_Chunk *>::iterator SampleIterator;
-
-SDLAudioService *SDLAudioService::instance = NULL;
+SDLAudioService *SDLAudioService::instance = nullptr;
 unsigned int SDLAudioService::refcount = 0;
 
 SDLAudioService::SDLAudioService() {
@@ -19,10 +16,8 @@ SDLAudioService::SDLAudioService() {
 }
 
 SDLAudioService::~SDLAudioService() {
-  for (TrackIterator it = tracks.begin(); it != tracks.end(); it++)
-    Mix_FreeMusic(it->second);
-  for (SampleIterator it = samples.begin(); it != samples.end(); it++)
-    Mix_FreeChunk(it->second);
+  for (auto track : tracks) Mix_FreeMusic(track.second);
+  for (auto sample : samples) Mix_FreeChunk(sample.second);
   Mix_CloseAudio();
 }
 
@@ -39,7 +34,7 @@ SDLAudioService *SDLAudioService::getInstance() {
 void SDLAudioService::release() {
   if (refcount <= 0 && instance) {
     delete instance;
-    instance = NULL;
+    instance = nullptr;
     refcount = 0;
   } else {
     refcount--;
@@ -49,7 +44,7 @@ void SDLAudioService::release() {
 void SDLAudioService::loadTrack(const char *filename) {
   if (tracks.find(filename) == tracks.end()) {
     tracks[filename] = Mix_LoadMUS(filename);
-    if (tracks[filename] == NULL) {
+    if (tracks[filename] == nullptr) {
       // Loading failed, print an error and erase the track
       cerr << "Mix_LoadMUS(\"" << filename << "\"): " << Mix_GetError() << endl;
       tracks.erase(filename);
@@ -60,7 +55,7 @@ void SDLAudioService::loadTrack(const char *filename) {
 void SDLAudioService::loadSample(const char *filename) {
   if (samples.find(filename) == samples.end()) {
     samples[filename] = Mix_LoadWAV(filename);
-    if (samples[filename] == NULL) {
+    if (samples[filename] == nullptr) {
       cerr << "Mix_LoadWAV(\"" << filename << "\"): " << Mix_GetError() << endl;
       samples.erase(filename);
     }

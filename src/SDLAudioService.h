@@ -20,7 +20,7 @@ class SDLAudioService : public AudioService {
 
   // Private constructor and destructor
   SDLAudioService();
-  ~SDLAudioService();
+  virtual ~SDLAudioService();
 
   void loadSample(const char *);
   void loadTrack(const char *);
